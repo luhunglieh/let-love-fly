@@ -8,6 +8,23 @@ This contains everything you need to run your app locally.
 
 View your app in AI Studio: https://ai.studio/apps/a0b0726e-e3a5-4975-bba3-7d392762cfc2
 
+
+# 讓愛飛翔 - Let Love Fly
+忠美扶輪社年度服務計畫。
+
+## 專案簡介
+
+結合畫展與公益，義賣所得將捐贈給予需要的單位。
+
+## 技術架構
+
+本網站採用 **Vite** 靜態網站打包工具建置，並整合以下功能：
+- 建置工具：Vite
+- 前端框架：React 19
+- 語言：TypeScript
+- 樣式：Tailwind CSS 4
+- 路由：React Router
+
 ## Run Locally
 
 **Prerequisites:**  Node.js
