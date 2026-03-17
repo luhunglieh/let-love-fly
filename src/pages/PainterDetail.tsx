@@ -120,7 +120,7 @@ export default function PainterDetail() {
                   transition={{ duration: 0.6, delay: index * 0.1 }}
                   className="group relative rounded-2xl overflow-hidden bg-white shadow-sm border border-stone-100"
                 >
-                  <div className="aspect-square overflow-hidden">
+                  <div className="aspect-square overflow-hidden mb-4">
                     <img 
                       src={artwork.image} 
                       alt={artwork.title} 
@@ -129,25 +129,25 @@ export default function PainterDetail() {
                     />
                   </div>
                   
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex flex-col justify-end p-6">
-                    <h3 className="text-white text-xl font-bold mb-2">{artwork.title}</h3>
-                    {artwork.collected ? (
-                      <span className="inline-flex items-center gap-1.5 text-emerald-400 text-sm font-medium">
-                        <CheckCircle2 size={16} /> 本作品已被收藏
-                      </span>
-                    ) : (
-                      <span className="inline-flex items-center gap-1.5 text-rose-400 text-sm font-medium">
-                        開放收藏中
-                      </span>
+                  <div className="p-6">
+                    <div className="flex items-center justify-between mb-3">
+                      <h3 className="text-stone-900 text-xl font-bold">{artwork.title}</h3>
+                      {artwork.collected ? (
+                        <span className="flex items-center gap-1.5 text-emerald-600 text-xs font-bold px-2.5 py-1 bg-emerald-50 rounded-full">
+                          <CheckCircle2 size={14} /> 已收藏
+                        </span>
+                      ) : (
+                        <span className="text-rose-500 text-xs font-bold px-2.5 py-1 bg-rose-50 rounded-full">
+                          開放收藏
+                        </span>
+                      )}
+                    </div>
+                    {artwork.description && (
+                      <p className="text-stone-600 text-sm leading-relaxed mb-4">
+                        {artwork.description}
+                      </p>
                     )}
                   </div>
-                  
-                  {/* Mobile always visible badge */}
-                  {artwork.collected && (
-                    <div className="absolute top-4 right-4 md:hidden bg-emerald-500 text-white text-xs font-bold px-3 py-1.5 rounded-full shadow-lg flex items-center gap-1">
-                      <CheckCircle2 size={14} /> 已收藏
-                    </div>
-                  )}
                 </motion.div>
               ))}
             </div>
