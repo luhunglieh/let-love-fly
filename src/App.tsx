@@ -7,7 +7,7 @@ import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
   return (
-    <BrowserRouter>
+    <BrowserRouter basename="/let-love-fly/">
       <ScrollToTop />
       <Routes>
         <Route path="/" element={<Layout />}>
