@@ -6,6 +6,7 @@ import PainterDetail from './pages/PainterDetail';
 import ScrollToTop from './components/ScrollToTop';
 
 export default function App() {
+  console.log('DEBUG: BASE_URL is', import.meta.env.BASE_URL);
   return (
     <BrowserRouter basename="/let-love-fly/">
       <ScrollToTop />
