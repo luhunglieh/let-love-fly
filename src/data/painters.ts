@@ -21,7 +21,7 @@ export const painters: Painter[] = [
   {
     id: 'antonio',
     name: '蘇一仲',
-    avatar: '/images/painters/antonio.jpg',
+    avatar: 'images/painters/antonio.jpg',
     shortBio: '自2013年起投入繪畫創作，雖非科班出身，卻以旺盛的熱情與敏銳的藝術直覺，迅速建立個人風格。',
     fullBio: '蘇一仲董事長，彰化鹿港人，現任和泰興業－大金空調會長，亦為台灣企業界的重量級人物。除事業卓然有成，更是一位深具人文涵養與藝術熱情的創作者。空閒時喜愛書法、繪畫、寫作、料理等藝文活動，著有《人生總有酸甜苦辣》、《魔術董事長：要最好，你非變不可》等書，展現其豐富多面的生命樣貌。蘇會長認為創作歷程如人生歷練，分為「茫然、偶然、豁然、果然」四階段，每幅畫作皆蘊含著情感與思想的交織。善於結合東方哲思與西方技法，透過色彩與光影描繪生活的體悟與心靈的風景。其繪畫啟蒙於青年時期，曾受教於旅日名師吳棟材，奠定了紮實基礎。',
     education: [
@@ -66,7 +66,7 @@ export const painters: Painter[] = [
   {
     id: 'willie',
     name: '白文亮',
-    avatar: '/images/painters/willie.jpg',
+    avatar: 'images/painters/willie.jpg',
     shortBio: '以獨特的視角與細膩的筆觸，展現對生命的熱愛與關懷。',
     fullBio: '白文亮，以獨特的視角與細膩的筆觸，展現對生命的熱愛與關懷。透過畫筆，將生活中的點滴轉化為動人的藝術作品，期望透過藝術傳遞正能量。',
     education: [],
@@ -83,7 +83,7 @@ export const painters: Painter[] = [
   {
     id: 'cho',
     name: '卓秀冬',
-    avatar: '/images/painters/cho.jpg',
+    avatar: 'images/painters/cho.jpg',
     shortBio: '將豐富的情感融入畫布，每一筆都訴說著動人的故事。',
     fullBio: '卓秀冬，將豐富的情感融入畫布，每一筆都訴說著動人的故事。擅長捕捉光影的變化，讓畫作充滿生命力與溫度。',
     education: [],
@@ -99,7 +99,7 @@ export const painters: Painter[] = [
   {
     id: 'hsinlee',
     name: '李昕',
-    avatar: '/images/painters/hsinlee.jpg',
+    avatar: 'images/painters/hsinlee.jpg',
     shortBio: '透過色彩的交響，傳遞溫暖與希望的力量。',
     fullBio: '李昕，透過色彩的交響，傳遞溫暖與希望的力量。作品風格多元，時而奔放，時而內斂，展現豐富的藝術才華。',
     education: [],
@@ -115,7 +115,7 @@ export const painters: Painter[] = [
   {
     id: 'huang',
     name: '黃麗香',
-    avatar: '/images/painters/huang.jpg',
+    avatar: 'images/painters/huang.jpg',
     shortBio: '以自然為師，將大地的美好化為永恆的藝術印記。',
     fullBio: '黃麗香，以自然為師，將大地的美好化為永恆的藝術印記。熱愛大自然，經常透過寫生捕捉風景的瞬息萬變。',
     education: [],

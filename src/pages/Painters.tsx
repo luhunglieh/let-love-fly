@@ -40,7 +40,7 @@ export default function Painters() {
             >
               <div className="aspect-[4/3] overflow-hidden relative">
                 <img 
-                  src={painter.avatar} 
+                  src={painter.avatar.startsWith('http') ? painter.avatar : `${import.meta.env.BASE_URL}${painter.avatar}`} 
                   alt={painter.name} 
                   className="w-full h-full object-cover transition-transform duration-500 hover:scale-105"
                   referrerPolicy="no-referrer"

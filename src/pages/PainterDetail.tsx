@@ -39,7 +39,7 @@ export default function PainterDetail() {
           >
             <div className="aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl sticky top-32">
               <img 
-                src={painter.avatar} 
+                src={painter.avatar.startsWith('http') ? painter.avatar : `${import.meta.env.BASE_URL}${painter.avatar}`} 
                 alt={painter.name} 
                 className="w-full h-full object-cover"
                 referrerPolicy="no-referrer"
@@ -122,7 +122,7 @@ export default function PainterDetail() {
                 >
                   <div className="aspect-square overflow-hidden mb-4">
                     <img 
-                      src={artwork.image} 
+                      src={artwork.image.startsWith('http') ? artwork.image : `${import.meta.env.BASE_URL}${artwork.image}`} 
                       alt={artwork.title} 
                       className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
                       referrerPolicy="no-referrer"
