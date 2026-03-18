@@ -251,6 +251,11 @@ export default function PainterDetail() {
               <Loader2 size={20} className={isLoadingStatus ? 'animate-spin' : ''} />
               GAS 回傳狀態 (Debug)
             </h3>
+            {!import.meta.env.VITE_GAS_URL && (
+              <div className="mb-6 p-4 bg-amber-50 text-amber-700 rounded-xl border border-amber-100 text-sm">
+                <strong>Warning:</strong> `VITE_GAS_URL` 橫跨環境變數為空！請確認 GitHub Secrets 已正確設定。
+              </div>
+            )}
             {gasError && (
               <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-xl border border-red-100 text-sm">
                 <strong>Error:</strong> {gasError}
