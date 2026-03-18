@@ -1,11 +1,47 @@
+import { useState, useEffect } from 'react';
 import { motion } from 'motion/react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { painters } from '../data/painters';
-import { ArrowLeft, BookOpen, Briefcase, CheckCircle2, Palette, Image, Sun } from 'lucide-react';
+import { ArrowLeft, BookOpen, Briefcase, CheckCircle2, Palette, Image, Sun, Loader2 } from 'lucide-react';
+import { fetchArtworkStatuses } from '../services/gasService';
 
 export default function PainterDetail() {
   const { id } = useParams<{ id: string }>();
   const painter = painters.find(p => p.id === id);
+  const [artworks, setArtworks] = useState(painter?.artworks || []);
+  const [isLoadingStatus, setIsLoadingStatus] = useState(true);
+  const [rawGasData, setRawGasData] = useState<any[]>([]);
+  const [gasError, setGasError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!painter) return;
+
+    const loadStatus = async () => {
+      setIsLoadingStatus(true);
+      setGasError(null);
+      try {
+        const statuses = await fetchArtworkStatuses();
+        setRawGasData(statuses);
+        
+        if (statuses.length > 0) {
+          setArtworks(prevArtworks => 
+            prevArtworks.map(art => {
+              const status = statuses.find(s => s.id === art.id);
+              return status ? { ...art, collected: status.collected } : art;
+            })
+          );
+        } else {
+          setGasError('未取得資料，請確認 GAS URL 是否正確或是否有權限。');
+        }
+      } catch (err: any) {
+        setGasError(err.message || '抓取資料時發生錯誤');
+      } finally {
+        setIsLoadingStatus(false);
+      }
+    };
+
+    loadStatus();
+  }, [id, painter]);
 
   if (!painter) {
     return <Navigate to="/painter" replace />;
@@ -162,7 +198,7 @@ export default function PainterDetail() {
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
-              {painter.artworks.map((artwork, index) => (
+              {artworks.map((artwork, index) => (
                 <motion.div
                   key={artwork.id}
                   initial={{ opacity: 0, y: 20 }}
@@ -183,7 +219,11 @@ export default function PainterDetail() {
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-3">
                       <h3 className="text-blue-950 text-xl font-bold">{artwork.title}</h3>
-                      {artwork.collected ? (
+                      {isLoadingStatus ? (
+                        <span className="flex items-center gap-1.5 text-blue-400 text-xs font-bold px-2.5 py-1 bg-blue-50/50 rounded-full animate-pulse">
+                          <Loader2 size={14} className="animate-spin" /> 確認中
+                        </span>
+                      ) : artwork.collected ? (
                         <span className="flex items-center gap-1.5 text-emerald-600 text-xs font-bold px-2.5 py-1 bg-emerald-50 rounded-full">
                           <CheckCircle2 size={14} /> 已收藏
                         </span>
@@ -203,6 +243,37 @@ export default function PainterDetail() {
               ))}
             </div>
           </motion.div>
+        )}
+        {/* Debug Section */}
+        {import.meta.env.DEV && (
+          <div className="mt-24 p-8 bg-gray-50 rounded-3xl border border-gray-200">
+            <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
+              <Loader2 size={20} className={isLoadingStatus ? 'animate-spin' : ''} />
+              GAS 回傳狀態 (Debug)
+            </h3>
+            {gasError && (
+              <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-xl border border-red-100 text-sm">
+                <strong>Error:</strong> {gasError}
+                <p className="mt-2 text-xs opacity-80">提示：如果看到 CORS 錯誤，請確保 GAS 腳本已部署為「網頁應用程式」且存取權限設為「任何人」。</p>
+              </div>
+            )}
+            {rawGasData.length > 0 ? (
+              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+                {rawGasData.map(data => (
+                  <div key={data.id} className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
+                    <div className="text-xs text-gray-500 mb-1">ID: {data.id}</div>
+                    <div className={`text-sm font-bold ${data.collected ? 'text-emerald-600' : 'text-blue-600'}`}>
+                      {data.collected ? '已收藏' : '未收藏'}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            ) : (
+              <p className="text-gray-500 italic">
+                {isLoadingStatus ? '正在載入實時資料...' : '尚未取得資料或資料格式不正確'}
+              </p>
+            )}
+          </div>
         )}
 
       </div>
