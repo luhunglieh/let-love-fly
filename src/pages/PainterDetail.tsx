@@ -1,7 +1,7 @@
 import { motion } from 'motion/react';
 import { useParams, Link, Navigate } from 'react-router-dom';
 import { painters } from '../data/painters';
-import { ArrowLeft, BookOpen, Briefcase, CheckCircle2 } from 'lucide-react';
+import { ArrowLeft, BookOpen, Briefcase, CheckCircle2, Palette, Image, Sun } from 'lucide-react';
 
 export default function PainterDetail() {
   const { id } = useParams<{ id: string }>();
@@ -12,7 +12,7 @@ export default function PainterDetail() {
   }
 
   return (
-    <div className="pt-32 pb-24 bg-[#fdfbf7] min-h-screen">
+    <div className="pt-32 pb-24 bg-white min-h-screen">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         
         {/* Back Link */}
@@ -23,7 +23,7 @@ export default function PainterDetail() {
         >
           <Link 
             to="/painter" 
-            className="inline-flex items-center gap-2 text-stone-500 hover:text-rose-600 transition-colors font-medium"
+            className="inline-flex items-center gap-2 text-blue-900/60 hover:text-blue-700 transition-colors font-medium"
           >
             <ArrowLeft size={20} /> 返回畫家列表
           </Link>
@@ -37,13 +37,20 @@ export default function PainterDetail() {
             transition={{ duration: 0.6 }}
             className="lg:col-span-5"
           >
-            <div className="aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl sticky top-32">
-              <img 
-                src={painter.avatar.startsWith('http') ? painter.avatar : `${import.meta.env.BASE_URL}${painter.avatar}`} 
-                alt={painter.name} 
-                className="w-full h-full object-cover"
-                referrerPolicy="no-referrer"
-              />
+            <div className="aspect-[3/4] rounded-3xl overflow-hidden shadow-2xl sticky top-32 group cursor-pointer">
+              <a href="#artworks" className="block w-full h-full relative">
+                <img 
+                  src={painter.detailImage.startsWith('http') ? painter.detailImage : `${import.meta.env.BASE_URL}${painter.detailImage}`} 
+                  alt={painter.name} 
+                  className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+                  referrerPolicy="no-referrer"
+                />
+                <div className="absolute inset-0 bg-blue-950/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300 flex items-center justify-center">
+                  <span className="bg-white/90 text-blue-950 px-6 py-3 rounded-full font-bold shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-300">
+                    查看作品
+                  </span>
+                </div>
+              </a>
             </div>
           </motion.div>
 
@@ -51,26 +58,23 @@ export default function PainterDetail() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="lg:col-span-7 flex flex-col justify-center"
+            className="lg:col-span-7 flex flex-col"
           >
-            <h1 className="text-5xl lg:text-6xl font-bold text-stone-900 mb-8 tracking-tight">
+            <h1 className="text-5xl lg:text-6xl font-bold text-blue-950 mb-12 tracking-tight">
               {painter.name}
             </h1>
             
-            <div className="prose prose-lg text-stone-600 leading-relaxed mb-12">
-              <p>{painter.fullBio}</p>
-            </div>
-
-            <div className="grid sm:grid-cols-2 gap-12">
+            {/* Education & Experience Grid */}
+            <div className="grid sm:grid-cols-2 gap-12 mb-12">
               {painter.education.length > 0 && (
                 <div>
-                  <h3 className="flex items-center gap-2 text-lg font-bold text-stone-900 mb-6">
-                    <BookOpen size={20} className="text-rose-500" /> 學歷背景
+                  <h3 className="flex items-center gap-2 text-lg font-bold text-blue-950 mb-6">
+                    <BookOpen size={20} className="text-blue-700" /> 學歷背景
                   </h3>
                   <ul className="space-y-4">
                     {painter.education.map((edu, idx) => (
-                      <li key={idx} className="text-stone-600 flex items-start gap-3">
-                        <span className="w-1.5 h-1.5 rounded-full bg-rose-300 mt-2 shrink-0" />
+                      <li key={idx} className="text-blue-900/70 flex items-start gap-3">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-300 mt-2 shrink-0" />
                         <span>{edu}</span>
                       </li>
                     ))}
@@ -80,13 +84,13 @@ export default function PainterDetail() {
 
               {painter.experience.length > 0 && (
                 <div>
-                  <h3 className="flex items-center gap-2 text-lg font-bold text-stone-900 mb-6">
-                    <Briefcase size={20} className="text-rose-500" /> 現職與經歷
+                  <h3 className="flex items-center gap-2 text-lg font-bold text-blue-950 mb-6">
+                    <Briefcase size={20} className="text-blue-700" /> 現職與經歷
                   </h3>
                   <ul className="space-y-4">
                     {painter.experience.map((exp, idx) => (
-                      <li key={idx} className="text-stone-600 flex items-start gap-3">
-                        <span className="w-1.5 h-1.5 rounded-full bg-rose-300 mt-2 shrink-0" />
+                      <li key={idx} className="text-blue-900/70 flex items-start gap-3">
+                        <span className="w-1.5 h-1.5 rounded-full bg-blue-300 mt-2 shrink-0" />
                         <span>{exp}</span>
                       </li>
                     ))}
@@ -94,20 +98,67 @@ export default function PainterDetail() {
                 </div>
               )}
             </div>
+
+            <div className="prose prose-lg text-blue-900/70 leading-relaxed mb-12 max-w-none">
+              <p>{painter.fullBio}</p>
+            </div>
+
+            {/* Philosophy Section */}
+            {painter.philosophy && (
+              <div className="mb-12">
+                <h3 className="flex items-center gap-2 text-xl font-bold text-blue-950 mb-6 border-b border-blue-100 pb-4">
+                  <Palette size={22} className="text-blue-700" /> 藝術理念與創作風格
+                </h3>
+                <p className="text-blue-900/80 leading-relaxed text-lg italic">
+                  「{painter.philosophy}」
+                </p>
+              </div>
+            )}
+
+            {/* Exhibitions Section */}
+            {painter.exhibitions && painter.exhibitions.length > 0 && (
+              <div className="mb-12">
+                <h3 className="flex items-center gap-2 text-xl font-bold text-blue-950 mb-6 border-b border-blue-100 pb-4">
+                  <Image size={22} className="text-blue-700" /> 展覽經歷
+                </h3>
+                <ul className="space-y-4">
+                  {painter.exhibitions.map((exh, idx) => (
+                    <li key={idx} className="text-blue-900/70 flex items-start gap-3">
+                      <span className="w-1.5 h-1.5 rounded-full bg-blue-300 mt-2 shrink-0" />
+                      <span>{exh}</span>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* Charity Section */}
+            {painter.charity && (
+              <div className="mb-12 bg-blue-50/30 p-8 rounded-3xl border border-blue-100/50">
+                <h3 className="flex items-center gap-2 text-xl font-bold text-blue-950 mb-6">
+                  <Sun size={22} className="text-blue-700" /> 扶輪背景與公益參與
+                </h3>
+                <p className="text-blue-900/80 leading-relaxed">
+                  {painter.charity}
+                </p>
+              </div>
+            )}
           </motion.div>
         </div>
 
         {/* Gallery Section */}
         {painter.artworks.length > 0 && (
           <motion.div
+            id="artworks"
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
+            className="scroll-mt-32"
           >
-            <div className="flex items-center justify-between mb-12 border-b border-stone-200 pb-6">
-              <h2 className="text-3xl font-bold text-stone-900">藝術作品</h2>
-              <span className="text-stone-500 font-medium">{painter.artworks.length} 件作品</span>
+            <div className="flex items-center justify-between mb-12 border-b border-blue-100 pb-6">
+              <h2 className="text-3xl font-bold text-blue-950">藝術作品</h2>
+              <span className="text-blue-900/50 font-medium">{painter.artworks.length} 件作品</span>
             </div>
 
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -118,7 +169,7 @@ export default function PainterDetail() {
                   whileInView={{ opacity: 1, y: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: index * 0.1 }}
-                  className="group relative rounded-2xl overflow-hidden bg-white shadow-sm border border-stone-100"
+                  className="group relative rounded-2xl overflow-hidden bg-white shadow-sm border border-blue-50"
                 >
                   <div className="aspect-square overflow-hidden mb-4">
                     <img 
@@ -131,19 +182,19 @@ export default function PainterDetail() {
                   
                   <div className="p-6">
                     <div className="flex items-center justify-between mb-3">
-                      <h3 className="text-stone-900 text-xl font-bold">{artwork.title}</h3>
+                      <h3 className="text-blue-950 text-xl font-bold">{artwork.title}</h3>
                       {artwork.collected ? (
                         <span className="flex items-center gap-1.5 text-emerald-600 text-xs font-bold px-2.5 py-1 bg-emerald-50 rounded-full">
                           <CheckCircle2 size={14} /> 已收藏
                         </span>
                       ) : (
-                        <span className="text-rose-500 text-xs font-bold px-2.5 py-1 bg-rose-50 rounded-full">
+                        <span className="text-blue-600 text-xs font-bold px-2.5 py-1 bg-blue-50 rounded-full">
                           開放收藏
                         </span>
                       )}
                     </div>
                     {artwork.description && (
-                      <p className="text-stone-600 text-sm leading-relaxed mb-4">
+                      <p className="text-blue-900/70 text-sm leading-relaxed mb-4">
                         {artwork.description}
                       </p>
                     )}
