@@ -12,6 +12,7 @@ export default function PainterDetail() {
   const [isLoadingStatus, setIsLoadingStatus] = useState(true);
   const [rawGasData, setRawGasData] = useState<any[]>([]);
   const [gasError, setGasError] = useState<string | null>(null);
+  const [matchCount, setMatchCount] = useState(0);
 
   useEffect(() => {
     if (!painter) return;
@@ -24,12 +25,15 @@ export default function PainterDetail() {
         setRawGasData(statuses);
         
         if (statuses.length > 0) {
+          let count = 0;
           setArtworks(prevArtworks => 
             prevArtworks.map(art => {
               const status = statuses.find(s => s.id === art.id);
+              if (status) count++;
               return status ? { ...art, collected: status.collected } : art;
             })
           );
+          setMatchCount(count);
         } else {
           setGasError('未取得資料，請確認 GAS URL 是否正確或是否有權限。');
         }
@@ -247,9 +251,16 @@ export default function PainterDetail() {
         {/* Debug Section - Enabled for testing on GitHub Pages */}
         {(import.meta.env.DEV || true) && (
           <div className="mt-24 p-8 bg-gray-50 rounded-3xl border border-gray-200">
-            <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
-              <Loader2 size={20} className={isLoadingStatus ? 'animate-spin' : ''} />
-              GAS 回傳狀態 (Debug)
+            <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center justify-between gap-2">
+              <span className="flex items-center gap-2">
+                <Loader2 size={20} className={isLoadingStatus ? 'animate-spin' : ''} />
+                GAS 回傳狀態 (Debug)
+              </span>
+              {!isLoadingStatus && rawGasData.length > 0 && (
+                <span className="text-sm font-normal text-gray-500">
+                  成功比對: <span className="font-bold text-blue-600">{matchCount}</span> / {artworks.length} 件作品
+                </span>
+              )}
             </h3>
             {!import.meta.env.VITE_GAS_URL && (
               <div className="mb-6 p-4 bg-amber-50 text-amber-700 rounded-xl border border-amber-100 text-sm">
