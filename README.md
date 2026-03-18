@@ -25,6 +25,16 @@ View your app in AI Studio: https://ai.studio/apps/a0b0726e-e3a5-4975-bba3-7d392
 - 樣式：Tailwind CSS 4
 - 路由：React Router
 
+## 後臺程式運作
+
+後臺採用 GAS (Google Apps Script) 建置，並整合以下功能：
+- 建置工具：GAS
+- 資料：Google Sheets (非 xlsx)
+
+注意
+- localhost call GAS 不會成功(Google不回應 localhost)
+- 部署 Github pages後會成功
+
 ## Run Locally
 
 **Prerequisites:**  Node.js
