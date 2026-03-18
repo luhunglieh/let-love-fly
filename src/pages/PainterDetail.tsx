@@ -10,35 +10,29 @@ export default function PainterDetail() {
   const painter = painters.find(p => p.id === id);
   const [artworks, setArtworks] = useState(painter?.artworks || []);
   const [isLoadingStatus, setIsLoadingStatus] = useState(true);
-  const [rawGasData, setRawGasData] = useState<any[]>([]);
-  const [gasError, setGasError] = useState<string | null>(null);
-  const [matchCount, setMatchCount] = useState(0);
 
   useEffect(() => {
     if (!painter) return;
 
     const loadStatus = async () => {
       setIsLoadingStatus(true);
-      setGasError(null);
       try {
         const statuses = await fetchArtworkStatuses();
-        setRawGasData(statuses);
         
-        if (statuses.length > 0) {
-          let count = 0;
-          setArtworks(prevArtworks => 
-            prevArtworks.map(art => {
-              const status = statuses.find(s => s.id === art.id);
-              if (status) count++;
-              return status ? { ...art, collected: status.collected } : art;
-            })
-          );
-          setMatchCount(count);
-        } else {
-          setGasError('未取得資料，請確認 GAS URL 是否正確或是否有權限。');
+        if (statuses && statuses.length > 0) {
+          // Update global state for this session
+          painter.artworks.forEach(art => {
+            const status = statuses.find(s => s.id === art.id);
+            if (status) {
+              art.collected = status.collected;
+            }
+          });
+
+          // Sync local state to trigger re-render
+          setArtworks([...painter.artworks]);
         }
-      } catch (err: any) {
-        setGasError(err.message || '抓取資料時發生錯誤');
+      } catch (err) {
+        console.error('Failed to fetch real-time artwork status:', err);
       } finally {
         setIsLoadingStatus(false);
       }
@@ -248,50 +242,6 @@ export default function PainterDetail() {
             </div>
           </motion.div>
         )}
-        {/* Debug Section - Enabled for testing on GitHub Pages */}
-        {(import.meta.env.DEV || true) && (
-          <div className="mt-24 p-8 bg-gray-50 rounded-3xl border border-gray-200">
-            <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center justify-between gap-2">
-              <span className="flex items-center gap-2">
-                <Loader2 size={20} className={isLoadingStatus ? 'animate-spin' : ''} />
-                GAS 回傳狀態 (Debug)
-              </span>
-              {!isLoadingStatus && rawGasData.length > 0 && (
-                <span className="text-sm font-normal text-gray-500">
-                  成功比對: <span className="font-bold text-blue-600">{matchCount}</span> / {artworks.length} 件作品
-                </span>
-              )}
-            </h3>
-            {!import.meta.env.VITE_GAS_URL && (
-              <div className="mb-6 p-4 bg-amber-50 text-amber-700 rounded-xl border border-amber-100 text-sm">
-                <strong>Warning:</strong> `VITE_GAS_URL` 橫跨環境變數為空！請確認 GitHub Secrets 已正確設定。
-              </div>
-            )}
-            {gasError && (
-              <div className="mb-6 p-4 bg-red-50 text-red-700 rounded-xl border border-red-100 text-sm">
-                <strong>Error:</strong> {gasError}
-                <p className="mt-2 text-xs opacity-80">提示：如果看到 CORS 錯誤，請確保 GAS 腳本已部署為「網頁應用程式」且存取權限設為「任何人」。</p>
-              </div>
-            )}
-            {rawGasData.length > 0 ? (
-              <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
-                {rawGasData.map(data => (
-                  <div key={data.id} className="bg-white p-4 rounded-xl border border-gray-200 shadow-sm">
-                    <div className="text-xs text-gray-500 mb-1">ID: {data.id}</div>
-                    <div className={`text-sm font-bold ${data.collected ? 'text-emerald-600' : 'text-blue-600'}`}>
-                      {data.collected ? '已收藏' : '未收藏'}
-                    </div>
-                  </div>
-                ))}
-              </div>
-            ) : (
-              <p className="text-gray-500 italic">
-                {isLoadingStatus ? '正在載入實時資料...' : '尚未取得資料或資料格式不正確'}
-              </p>
-            )}
-          </div>
-        )}
-
       </div>
     </div>
   );
