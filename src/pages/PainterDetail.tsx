@@ -244,8 +244,8 @@ export default function PainterDetail() {
             </div>
           </motion.div>
         )}
-        {/* Debug Section */}
-        {import.meta.env.DEV && (
+        {/* Debug Section - Enabled for testing on GitHub Pages */}
+        {(import.meta.env.DEV || true) && (
           <div className="mt-24 p-8 bg-gray-50 rounded-3xl border border-gray-200">
             <h3 className="text-xl font-bold text-gray-900 mb-6 flex items-center gap-2">
               <Loader2 size={20} className={isLoadingStatus ? 'animate-spin' : ''} />
