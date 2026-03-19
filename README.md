@@ -16,6 +16,17 @@ View your app in AI Studio: https://ai.studio/apps/a0b0726e-e3a5-4975-bba3-7d392
 
 結合畫展與公益，義賣所得將捐贈給予需要的單位。
 
+## 後臺程式運作
+
+後臺採用 GAS (Google Apps Script) 建置，並整合以下功能：
+- 建置工具：GAS
+- 資料：Google Sheets (非 xlsx)
+
+**注意 注意 注意**
+- localhost call GAS api 不會成功(Google不回應 localhost)
+- src code 不更動直接部署到 Github pages後會成功✅
+- src code 無須模擬瀏覽器, 不會有 CORS 阻擋✅✅
+
 ## 技術架構
 
 本網站採用 **Vite** 靜態網站打包工具建置，並整合以下功能：
@@ -25,23 +36,26 @@ View your app in AI Studio: https://ai.studio/apps/a0b0726e-e3a5-4975-bba3-7d392
 - 樣式：Tailwind CSS 4
 - 路由：React Router
 
-## 後臺程式運作
+🎯 Vite 可以做什麼？
 
-後臺採用 GAS (Google Apps Script) 建置，並整合以下功能：
-- 建置工具：GAS
-- 資料：Google Sheets (非 xlsx)
+✅支援的框架：
+- Vue.js（Vite原生支援最好）
+- React
+- Svelte
+- Solid
+- Vanilla JavaScript（純 JS/TS）
+- Astro
 
-注意
-- localhost call GAS 不會成功(Google不回應 localhost)
-- 部署 Github pages後會成功
+✅主要功能：
+- 開發伺服器（localhost）
+- 自動刷新瀏覽器
+- TypeScript 支援
+- CSS 預處理器（Sass, Less, Stylus）
+- 生產環境打包（使用 Rollup）
+- 程式碼分割（Code Splitting）
+- 靜態資源處理
 
 ## Run Locally
 
 **Prerequisites:**  Node.js
-
-
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+0
