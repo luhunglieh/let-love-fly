@@ -54,8 +54,10 @@
           var decoded = l.search.slice(1).split('&').map(function(s) { 
             return s.replace(/~and~/g, '&')
           }).join('?');
+          // 安全防禦：過濾開頭連續的斜線或反斜線，確保路徑以單一斜線開頭，防範 Open Redirect
+          var safeDecoded = '/' + decoded.replace(/^[/\\]+/, '');
           window.history.replaceState(null, null,
-              l.pathname.slice(0, -1) + decoded + l.hash
+              l.pathname.slice(0, -1) + safeDecoded + l.hash
           );
         }
       }(window.location))

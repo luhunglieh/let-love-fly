@@ -89,6 +89,10 @@ description: >-
    * 本地開發伺服器嚴禁綁定 `0.0.0.0` 全網段，一律強制限制於本機環回介面 `127.0.0.1:3000`。
    * 嚴禁在 `vite.config.ts` 使用 `define` 將後端金鑰注入至客戶端 JS 產物中。
 
+5. **外部 API 韌性與 SPA 404 重導向防護 (API Resilience & Open Redirect Guard)**：
+   * **GAS 5 秒超時與 TTL 快取**：[`src/services/gasService.ts`](../../../src/services/gasService.ts) 透過 `AbortSignal.timeout(5000)` 防止連線無限期掛死，並設置 30 秒記憶體快取以防範配額耗竭攻擊 (Quota DoS)，遇異常時自動降級使用過往快取資料。
+   * **SPA 404 跳轉路徑清理**：[`public/404.html`](../../../public/404.html) 與 [`index.html`](../../../index.html) 在使用 `replaceState` 重組路徑前，強制過濾開頭連續斜線與反斜線（`^[/\\]+`），阻斷協定相對路徑 (Open Redirect) 注入風險。
+
 ---
 
 ## 5. 驗證步驟 (Verification Runbook)

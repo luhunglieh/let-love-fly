@@ -1,5 +1,5 @@
 import { motion } from 'motion/react';
-import { Heart, Activity, Users, MapPin, ArrowRight, Calendar, Info, CreditCard } from 'lucide-react';
+import { Heart, Activity, Users, MapPin, ArrowRight, Calendar, Info } from 'lucide-react';
 import { Link } from 'react-router-dom';
 
 export default function Home() {
@@ -154,7 +154,7 @@ export default function Home() {
             </Link>
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid md:grid-cols-2 gap-8">
             {/* Exhibition Info */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
@@ -211,34 +211,6 @@ export default function Home() {
                 <div className="mt-8 p-4 bg-zinc-50 rounded-2xl text-sm">
                   <p className="mb-2">📌 義買、義捐者請於展覽結束前完成匯款</p>
                   <p>📌 藝術家作品將自 8月10日起陸續寄送給您</p>
-                </div>
-              </div>
-            </motion.div>
-
-            {/* Payment Info */}
-            <motion.div
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ delay: 0.2 }}
-              className="bg-white p-8 rounded-3xl shadow-sm border border-stone-100"
-            >
-              <div className="w-12 h-12 bg-amber-50 rounded-2xl flex items-center justify-center text-amber-600 mb-6">
-                <CreditCard size={24} />
-              </div>
-              <h4 className="text-xl font-bold text-stone-900 mb-4">匯款說明</h4>
-              <div className="space-y-4 p-6 bg-amber-50/50 rounded-3xl border border-amber-100/50 text-stone-700">
-                <div>
-                  <label className="text-xs uppercase tracking-wider text-amber-700 font-bold mb-1 block">銀行資訊</label>
-                  <p className="font-medium">臺灣銀行 中山分行 (代碼 004)</p>
-                </div>
-                <div>
-                  <label className="text-xs uppercase tracking-wider text-amber-700 font-bold mb-1 block">帳號</label>
-                  <p className="font-mono text-lg font-bold">02000-1157143</p>
-                </div>
-                <div>
-                  <label className="text-xs uppercase tracking-wider text-amber-700 font-bold mb-1 block">戶名</label>
-                  <p className="font-bold text-stone-900">台北市忠美扶輪社 李文嬌</p>
                 </div>
               </div>
             </motion.div>
